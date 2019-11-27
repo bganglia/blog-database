@@ -20,12 +20,15 @@ CREATE TABLE User (
   location VARCHAR(100),
   name VARCHAR(100),
   email VARCHAR(100)
-)
+);
 
-
-Subscription
-	User
-	Blog
+CREATE TABLE Subscription (
+  username VARCHAR(20),
+  blogID INT,
+  PRIMARY KEY (username, blogID),
+  FOREIGN KEY (blogID) REFERENCES Blog(blogID),
+  FOREIGN KEY (username) REFERENCES User(username)
+);
 
 Authorship
 	Post
