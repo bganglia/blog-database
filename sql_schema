@@ -8,7 +8,8 @@ CREATE TABLE Post (
 );
 
 CREATE TABLE Blog (
-  blogTitle VARCHAR(1000) PRIMARY KEY,
+  blogID INT PRIMARY KEY,
+  blogTitle VARCHAR(1000),
   slogan VARCHAR(1000),
   owner VARCHAR(20),
   FOREIGN KEY (owner) REFERENCES User(username);
