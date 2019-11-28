@@ -1,3 +1,6 @@
+CREATE DATABASE blogs;
+USE Blogs;
+
 CREATE TABLE Post (
   pid INT PRIMARY KEY,
   postTitle VARCHAR(1000),
