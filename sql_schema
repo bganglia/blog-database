@@ -4,15 +4,7 @@ CREATE TABLE Post (
   subtitle VARCHAR(1000),
   shortTitle VARCHAR(300),
   summary VARCHAR(2000),
-  text TEXT
-);
-
-CREATE TABLE Blog (
-  blogID INT PRIMARY KEY,
-  blogTitle VARCHAR(1000),
-  slogan VARCHAR(1000),
-  owner VARCHAR(20),
-  FOREIGN KEY (owner) REFERENCES User(username);
+  text_content TEXT
 );
 
 CREATE TABLE User (
@@ -20,6 +12,14 @@ CREATE TABLE User (
   location VARCHAR(100),
   name VARCHAR(100),
   email VARCHAR(100)
+);
+
+CREATE TABLE Blog (
+  blogID INT PRIMARY KEY,
+  blogTitle VARCHAR(1000),
+  slogan VARCHAR(1000),
+  owner VARCHAR(20),
+  FOREIGN KEY (owner) REFERENCES User(username)
 );
 
 Subscription
