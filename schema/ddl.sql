@@ -1,4 +1,4 @@
-CREATE DATABASE blogs;
+CREATE DATABASE Blogs;
 USE Blogs;
 
 CREATE TABLE Users (
