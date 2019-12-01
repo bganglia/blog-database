@@ -1,0 +1,34 @@
+Pseudocode structure of database 
+
+User
+	Username (primary key)
+	Password
+	Name
+	Email address
+
+Blog
+	ID (primary key)
+	Title
+	Description
+	Owner (a user)
+
+Post
+	Post ID (primary key)
+	Blog ID (foreign key)
+	Title
+	Author
+	Content
+
+Comment
+	ID (primary key)
+	Post ID (foreign key)
+	Author (a user)
+	Content
+
+Tag
+	ID (primary key)
+	name
+
+PostTag
+	postId (primary key)
+	tagId (primary key)
