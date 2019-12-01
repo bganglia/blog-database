@@ -3,11 +3,8 @@
 <body>
 <?php
     //Connect to database
-    $dbhost = "localhost";
-    $dbusername = "root";
-    $dbpassword = "";
-    $dbname = "Blogs";
-    $conn = new mysqli($dbhost, $dbusername, $dbpassword, $dbname);
+    include "common/utils.php";
+    $conn = getConnection();
     if ($conn) {
       echo "working";
     }

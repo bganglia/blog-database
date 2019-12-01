@@ -3,7 +3,7 @@
 <body>
   <!-- TODO: Limit input length -->
   <form action="submit_blog_page.php" method="post">
-    Blog ID
+    blogId
     <br>
     <input type="number" name="blogId">
     <br>
@@ -17,7 +17,7 @@
     <br>
     Content
     <br>
-    <textarea name="content"></textarea>
+    <textarea name="content"> </textarea>
     <br>
     <input type="submit" name="submission" value="Submit">
   </form>
