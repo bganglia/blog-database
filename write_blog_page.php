@@ -3,23 +3,21 @@
 <body>
   <!-- TODO: Limit input length -->
   <form action="submit_blog_page.php" method="post">
+    Blog ID
+    <br>
+    <input type="number" name="blogId">
+    <br>
     Title
     <br>
     <input type="text" name="title">
     <br>
-    Subtitle
+    Author
     <br>
-    <input type="text" name="subtitle">
+    <input type="text" name="author">
     <br>
     Content
     <br>
-    <textarea name="content"> </textarea>
-    <br>
-    Summary
-    <br>
-    <input type="text" name="short_title">
-    <br>
-    <textarea name="summary"> </textarea>
+    <textarea name="content"></textarea>
     <br>
     <input type="submit" name="submission" value="Submit">
   </form>
