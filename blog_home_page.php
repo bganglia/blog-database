@@ -12,34 +12,60 @@
           ."<br>"
           ."<p>$summary_text</p>";
   }
-  function display_blog($table, &$title, &$author, &$content, $max_no) {
+  function display_articles_preview($table, &$title, &$author, &$content, $max_no) {
     //Displays the first $max_no results from the blog using display_post_preview
     $number_displayed = 0;
     $length_of_summary = 240; //Random number of characters
+    $articles_preview = "";
     while ($number_displayed <= $max_no) {
       $number_displayed++;
       if ($table->fetch()) {
         //Display each item that exists
-        echo display_post_preview($title,
-                                  //Currently, get the summary by slicing the content
-                                  substr($content,
-                                         0, $length_of_summary) . " ... ",
-                                  $author);
+        $articles_preview .= display_post_preview($title,
+                                                  //Currently, get the summary by slicing the content
+                                                  substr($content,
+                                                          0, $length_of_summary) . " ... ",
+                                                  $author);
       }
       else {
         //Exit the loop if the results have run out early
         break;
       }
     }
+    return $articles_preview;
+  }
+  function display_blog_info($table, &$blog_title, &$description, &$owner) {
+    //Only expects one result
+    $table->fetch();
+    return "<b>$blog_title</b>"
+          ."<p>$description</p>"
+          ."<p>owned by $owner";
   }
   $blogId = (int) $_GET["blogId"];
-  //Protect against SQL injection while making query
-  $query = $conn->prepare("SELECT title, author, content FROM Posts "
+  //Display blog title, owner, and description
+
+  $blog_info = $conn->prepare("SELECT title, description, owner "
+                             ."FROM Blogs "
+                             ."WHERE id = ?");
+  $blog_info->bind_param("i",$blogId);
+  $blog_info->execute();
+  $blog_info->bind_result($blog_title, $description, $owner);
+  echo display_blog_info($blog_info, $blog_title, $description, $owner);
+  $blog_info->close();
+
+  echo "<br><br><br>";
+
+  //Display posts from blog
+
+  $post_summaries = $conn->prepare("SELECT title, author, content "
+                         ."FROM Posts "
                          ."WHERE blogId = ?");
-  $query->bind_param("i",$blogId);
-  $query->execute(); //Add safekeeping code
-  $query->bind_result($title, $author, $content);
-  display_blog($query, $title, $author, $content, $max_results_no);
+  $post_summaries->bind_param("i",$blogId);
+  $post_summaries->execute(); //Add safekeeping code
+  $post_summaries->bind_result($post_title, $author, $content);
+  echo display_articles_preview($post_summaries, $post_title, $author, $content, $max_results_no);
+
+
   //See the following pages for related documentation:
   // https://www.php.net/manual/es/mysqli-stmt.fetch.php
   // https://www.php.net/manual/es/mysqli-stmt.execute.php
