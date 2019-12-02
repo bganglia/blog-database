@@ -3,9 +3,9 @@
 </head>
 
 <body>
-<?php 
+<?php
   include('../common/header.php');
-  
+
   $max_results_no = 20;
   function display_post_preview($title, $summary_text, $author) {
     //Displays a preview containing the title and author on one line, followed by summary text.
@@ -39,6 +39,8 @@
   function display_blog_info($table, &$blog_title, &$description, &$owner) {
     //Only expects one result
     $table->fetch();
+    $blog_title = $table["title"];
+    $
     return "<b>$blog_title</b>"
           ."<p>$description</p>"
           ."<p>owned by $owner";
@@ -48,10 +50,8 @@
 
   $blog_info = $conn->prepare("SELECT title, description, owner "
                              ."FROM Blogs "
-                             ."WHERE id = ?");
-  $blog_info->bind_param("i",$blogId);
-  $blog_info->execute();
-  $blog_info->bind_result($blog_title, $description, $owner);
+                             ."WHERE id = :id");
+  $blog_info->execute(array(":id" => $blogId));
   echo display_blog_info($blog_info, $blog_title, $description, $owner);
   $blog_info->close();
 
@@ -61,10 +61,8 @@
 
   $post_summaries = $conn->prepare("SELECT title, author, content "
                          ."FROM Posts "
-                         ."WHERE blogId = ?");
-  $post_summaries->bind_param("i",$blogId);
-  $post_summaries->execute(); //Add safekeeping code
-  $post_summaries->bind_result($post_title, $author, $content);
+                         ."WHERE blogId = :blogId");
+  $post_summaries->execute(array(":blogId" => $blogId)); //Add safekeeping code
   echo display_articles_preview($post_summaries, $post_title, $author, $content, $max_results_no);
 
 
