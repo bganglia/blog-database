@@ -14,13 +14,6 @@ function getAllBlogs() {
     return $conn->query($sql);
 }
 
-function getPost($id) {
-    global $conn;
-    $query = $conn->prepare("SELECT p.* FROM Posts p WHERE p.id = :id");
-    $query->execute(array(":id" => $id));
-    return $query->fetch();
-}
-
 function getBlog($id) {
     global $conn;
     $query = $conn->prepare("SELECT b.*, u.name as ownerName, u.email as ownerEmail FROM Blogs b JOIN Users u ON b.owner = u.username WHERE b.id = :id");
@@ -37,4 +30,18 @@ function deleteBlog($id) {
     $query->execute();
 }
 
-?>
+function getPosts($blogId) {
+    global $conn;
+    $query = $conn->prepare("SELECT p.* FROM Posts p WHERE p.blogId = :blogId");
+    $query->bindParam(":blogId", $blogId);
+    $query->execute();
+    return $query;
+}
+
+function getPost($id) {
+    global $conn;
+    $query = $conn->prepare("SELECT p.* FROM Posts p WHERE p.id = :id");
+    $query->bindParam(":id", $id);
+    $query->execute();
+    return $query->fetch();
+}
