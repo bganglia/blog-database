@@ -1,9 +1,11 @@
-<!DOCTYPE HTML>
-<head> </head>
+<head>
+    <?php include('../common/head-tags.php') ?>
+</head>
+
 <body>
-<?php
-  include "common/utils.php";
-  $conn=getConnection();
+<?php 
+  include('../common/header.php');
+  
   $max_results_no = 20;
   function display_post_preview($title, $summary_text, $author) {
     //Displays a preview containing the title and author on one line, followed by summary text.
@@ -41,7 +43,7 @@
           ."<p>$description</p>"
           ."<p>owned by $owner";
   }
-  $blogId = (int) $_GET["blogId"];
+  $blogId = (int) $_GET["id"];
   //Display blog title, owner, and description
 
   $blog_info = $conn->prepare("SELECT title, description, owner "
