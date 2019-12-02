@@ -21,7 +21,6 @@ CREATE TABLE Posts (
     blogId INT,
     title VARCHAR(1000),
     author VARCHAR(100),
-    uploaded DATE,
     content TEXT,
     FOREIGN KEY (author) REFERENCES Users (username),
     FOREIGN KEY (blogId) REFERENCES Blogs (id)
