@@ -3,15 +3,22 @@
 $servername = "localhost";
 $username = "root";
 $password = "";
-$dbname = "blogs";
+$dbname = "Blogs";
 
-$conn = new PDO("mysql:host=".$servername.";dbname=".$dbname, $username, $password);
+$conn = new PDO("mysql:dbname=".$dbname.";host=".$servername, $username, $password);
 
 function getAllBlogs() {
     global $conn;
     $sql = "SELECT b.*, u.name as ownerName, u.email as ownerEmail FROM Blogs b JOIN Users u ON b.owner = u.username";
 
     return $conn->query($sql);
+}
+
+function getPost($id) {
+    global $conn;
+    $query = $conn->prepare("SELECT p.* FROM Posts p WHERE p.id = :id");
+    $query->execute(array(":id" => $id));
+    return $query->fetch();
 }
 
 function getBlog($id) {
