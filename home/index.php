@@ -14,9 +14,7 @@
         <?php
             $blogs = getAllBlogs();
 
-            for ($i = 0; $i < $blogs->num_rows; $i++) {
-                $row = $blogs->fetch_assoc();
-
+            foreach ($blogs as $row) {
                 echo '
                     <div class="card mt-1 mb-1">
                         <div class="card-body">
