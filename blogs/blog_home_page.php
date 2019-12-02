@@ -8,9 +8,9 @@
   include('../common/sql.php');
 
   $max_results_no = 20;
-  function display_post_preview($title, $summary_text, $author) {
+  function display_post_preview($title, $summary_text, $author, $postId) {
     //Displays a preview containing the title and author on one line, followed by summary text.
-    return "<b>$title</b>"
+    return "<a href='show_post.php?postId=$postId'><b>$title</b></a>"
           ."<i> by $author</i>"
           ."<br>"
           ."<p>$summary_text</p>";
@@ -28,7 +28,8 @@
                                                   //Currently, get the summary by slicing the content
                                                   substr($row["content"],
                                                           0, $length_of_summary) . " ... ",
-                                                  $row["author"]);
+                                                  $row["author"],
+                                                  $row["id"]);
       }
       else {
         //Exit the loop if the results have run out early
