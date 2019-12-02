@@ -18,7 +18,7 @@
                 $row = $blogs->fetch_assoc();
 
                 echo '
-                    <div class="card">
+                    <div class="card mt-1 mb-1">
                         <div class="card-body">
                             <div class="card-title d-flex flex-row justify-content-between">
                                 <h3><a href="/blogs?id='. $row['id'] .'">'. $row['title'] .'</a></h3>
