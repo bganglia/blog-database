@@ -5,7 +5,6 @@
 <body>
 <?php
   include('../common/header.php');
-  include('../common/sql.php');
 
   $max_results_no = 20;
   function display_post_preview($title, $summary_text, $author) {
@@ -46,7 +45,7 @@
           ."<p>$description</p>"
           ."<p>owned by $owner";
   }
-  $blogId = (int) $_GET["blogId"];
+  $blogId = (int) $_GET["id"];
 
   //Display blog title, owner, and description
   echo display_blog_info(getBlog($blogId));
