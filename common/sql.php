@@ -53,3 +53,13 @@ function getComments($postId) {
     $query->execute();
     return $query;
 }
+
+function addTag($tag, $postId) {
+  global $conn;
+  $postId = (int) $postId;
+  $query = $conn->prepare("INSERT INTO PostTags(tag, postId) "
+                         ."VALUES(:tag, :postId)");
+  $query->bindParam(":tag",$tag);
+  $query->bindParam(":postId", $postId);
+  return $query->execute(); //Here a boolean return makes sense
+}
