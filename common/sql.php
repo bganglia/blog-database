@@ -21,9 +21,9 @@ function getAllBlogs() {
 function getBlog($id) {
     global $conn;
     $sql = $conn->prepare("SELECT b.*, u.name as ownerName, u.email as ownerEmail FROM Blogs b JOIN Users u ON b.owner = u.username WHERE b.id = ?");
-    $query = $sql->bind_param("i", $id);
+    $sql->bind_param("i", $id);
 
-    return $query->execute();
+    return $sql;
 }
 
 function deleteBlog($id) {
@@ -31,7 +31,7 @@ function deleteBlog($id) {
     $sql = $conn->prepare("DELETE FROM Blogs WHERE id = ?");
     $sql->bind_param("i", $id);
 
-    return $sql->execute();
+    return $sql;
 }
 
 ?>
