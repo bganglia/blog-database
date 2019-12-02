@@ -3,29 +3,18 @@
 <body>
 <?php
     //Connect to database
-    include "common/utils.php";
-    $conn = getConnection();
+    include "common/sql.php";
     if ($conn) {
       echo "working";
     }
     //Create query
-    $text='INSERT INTO Posts(blogId, title, content, author, date) VALUES (?, ?, ?, ?, ?)';
-    echo $text;
-    $insertion = $conn->prepare($text);
-    if ($insertion) {
-      echo "working";
-    }
-    $blogId = (int) $_POST["blogId"];
-    $title = $_POST["title"];
-    $content = $_POST["content"];
-    $author = $_POST["author"];
-    $time = time();
-    //echo $insertion;
-    $insertion->bind_param("isssi", $blogId, $title, $content, $author);
-    echo $insertion->execute();
-    $insertion->close();
-    //Wrap up
-    $conn->close();
+    $insertion=$conn->prepare('INSERT INTO Posts(blogId, title, content, author) '
+                             .'VALUES (:blogId, :title, :content, :author)');
+    $insertion->bindParam(":blogId",$_POST["blogId"]);
+    $insertion->bindParam(":title",$_POST["title"]);
+    $insertion->bindParam(":content",$_POST["content"]);
+    $insertion->bindParam(":author",$_POST["author"]);
+    $insertion->execute();
     echo "Your post has been recieved";
 ?>
 <body>

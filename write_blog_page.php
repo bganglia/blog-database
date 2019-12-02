@@ -19,6 +19,10 @@
     <br>
     <textarea name="content"> </textarea>
     <br>
+    Tags
+    <br>
+    <textarea name="tags"> </textarea>
+    <br>
     <input type="submit" name="submission" value="Submit">
   </form>
 
