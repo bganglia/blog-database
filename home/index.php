@@ -11,7 +11,6 @@
     ?>
 
     <div class="d-flex flex-column ml-auto mr-auto" style="width: 75%;">
-    
         <?php
             $blogs = getAllBlogs();
 
@@ -22,7 +21,7 @@
                     <div class="card">
                         <div class="card-body">
                             <div class="card-title d-flex flex-row justify-content-between">
-                                <h3><a href="">'. $row['title'] .'</a></h3>
+                                <h3><a href="/blogs?id='. $row['id'] .'">'. $row['title'] .'</a></h3>
                                 <p>Owner: '. $row['ownerName'] .'</p>
                             </div>
                             <p class="card-text">'. $row['description'] .'</p>
