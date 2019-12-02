@@ -21,7 +21,7 @@
     $author = $_POST["author"];
     $time = time();
     //echo $insertion;
-    $insertion->bind_param("isssi", $blogId, $title, $content, $author, $time);
+    $insertion->bind_param("isssi", $blogId, $title, $content, $author);
     echo $insertion->execute();
     $insertion->close();
     //Wrap up
