@@ -5,11 +5,7 @@ $username = "root";
 $password = "";
 $dbname = "blogs";
 
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+$conn = new PDO("mysql:host=".$servername.";dbname=".$dbname, $username, $password);
 
 function getAllBlogs() {
     global $conn;
@@ -20,18 +16,18 @@ function getAllBlogs() {
 
 function getBlog($id) {
     global $conn;
-    $sql = $conn->prepare("SELECT b.*, u.name as ownerName, u.email as ownerEmail FROM Blogs b JOIN Users u ON b.owner = u.username WHERE b.id = ?");
-    $sql->bind_param("i", $id);
+    $query = $conn->prepare("SELECT b.*, u.name as ownerName, u.email as ownerEmail FROM Blogs b JOIN Users u ON b.owner = u.username WHERE b.id = :id");
+    $query->bindParam(":id", $id);
+    $query->execute();
 
-    return $sql;
+    return $query->fetch();
 }
 
 function deleteBlog($id) {
     global $conn;
-    $sql = $conn->prepare("DELETE FROM Blogs WHERE id = ?");
-    $sql->bind_param("i", $id);
-
-    return $sql;
+    $query = $conn->prepare("DELETE FROM Blogs WHERE id = :id");
+    $query->bindParam(":id", $id);
+    $query->execute();
 }
 
 ?>
