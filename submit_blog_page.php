@@ -9,7 +9,7 @@
       echo "working";
     }
     //Create query
-    $text='INSERT INTO Posts(blogId, title, content, author) VALUES (?, ?, ?, ?)';
+    $text='INSERT INTO Posts(blogId, title, content, author, date) VALUES (?, ?, ?, ?, ?)';
     echo $text;
     $insertion = $conn->prepare($text);
     if ($insertion) {
@@ -19,12 +19,9 @@
     $title = $_POST["title"];
     $content = $_POST["content"];
     $author = $_POST["author"];
-    echo $blogId;
-    echo $title;
-    echo $content;
-    echo $author;
+    $time = time();
     //echo $insertion;
-    $insertion->bind_param("isss", $blogId, $title, $content, $author);
+    $insertion->bind_param("isssi", $blogId, $title, $content, $author, $time);
     echo $insertion->execute();
     $insertion->close();
     //Wrap up
