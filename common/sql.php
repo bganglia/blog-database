@@ -45,3 +45,11 @@ function getPost($id) {
     $query->execute();
     return $query->fetch();
 }
+
+function getComments($postId) {
+    global $conn;
+    $query = $conn->prepare("SELECT c.* FROM Comments c WHERE c.postId = :postId");
+    $query->bindParam(":postId", $postId);
+    $query->execute();
+    return $query;
+}
