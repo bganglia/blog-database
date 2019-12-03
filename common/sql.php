@@ -30,28 +30,29 @@ function deleteBlog($id) {
     $query->execute();
 }
 
-function getPosts($blogId) {
-    global $conn;
-    $query = $conn->prepare("SELECT p.* FROM Posts p WHERE p.blogId = :blogId");
-    $query->bindParam(":blogId", $blogId);
-    $query->execute();
-    return $query;
-}
-
-function getPost($id) {
-    global $conn;
-    $query = $conn->prepare("SELECT p.* FROM Posts p WHERE p.id = :id");
-    $query->bindParam(":id", $id);
-    $query->execute();
-    return $query->fetch();
-}
-
 function getComments($postId) {
     global $conn;
     $query = $conn->prepare("SELECT c.* FROM Comments c WHERE c.postId = :postId");
     $query->bindParam(":postId", $postId);
     $query->execute();
     return $query;
+}
+
+function getPosts($blogId) {
+    global $conn;
+    $query = $conn->prepare("SELECT p.*, u.name as authorName FROM Posts p JOIN Users u ON u.username = p.author WHERE blogId = :blogId");
+    $query->bindParam(":blogId", $blogId);
+    $query->execute();
+    return $query;
+}
+
+function getPost($postId) {
+    global $conn;
+    $query = $conn->prepare("SELECT p.*, u.name as authorName FROM Posts p JOIN Users u ON u.username = p.author WHERE id = :postId");
+    $query->bindParam(":postId", $postId);
+
+    $query->execute();
+    return $query->fetch();
 }
 
 function createPost($blogId, $post) {

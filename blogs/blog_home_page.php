@@ -1,14 +1,15 @@
 <head>
     <?php 
-      $PAGE_TITLE = "A Blog";
+      $blogId = $_GET['id'];
+      $blog = getBlog($blogId);
+
+      $PAGE_TITLE = $blog['title'];
       include('../common/head-tags.php');
     ?>
 </head>
 
 <body>
-<?php
-  include('../common/header.php');
-?>
+  <?php include('../common/header.php') ?>
 
   <div class="w-50 ml-auto mr-auto">
     <?php
@@ -44,7 +45,7 @@
                                                       //Currently, get the summary by slicing the content
                                                       substr($row["content"],
                                                               0, $length_of_summary) . " ... ",
-                                                      $row["author"],
+                                                      $row["authorName"],
                                                       $row["id"]);
           }
           else {
@@ -63,7 +64,6 @@
               ."<p>$description</p>"
               ."<p>owned by $owner";
       }
-      $blogId = (int) $_GET["id"];
 
       echo '
         <a class="btn btn-primary" role="button" href="/posts/create_post.php?blogId='. $blogId .'">Create Post</a>
@@ -71,7 +71,7 @@
       ';
 
       //Display blog title, owner, and description
-      echo display_blog_info(getBlog($blogId));
+      echo display_blog_info($blog);
       echo "<br/><br/><br/>";
       //Display posts from blog
       echo display_articles_preview(getPosts($blogId), $max_results_no);
