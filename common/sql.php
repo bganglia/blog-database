@@ -32,10 +32,21 @@ function deleteBlog($id) {
 
 function getComments($postId) {
     global $conn;
-    $query = $conn->prepare("SELECT c.* FROM Comments c WHERE c.postId = :postId");
+    $query = $conn->prepare("SELECT c.*, u.name as authorName FROM Comments c JOIN Users u ON c.author = u.username WHERE c.postId = :postId");
     $query->bindParam(":postId", $postId);
     $query->execute();
     return $query;
+}
+
+function createComment($postId, $comment) {
+    global $conn;
+    $query = $conn->prepare("INSERT INTO Comments(postId, content, author) VALUES (:postId, :content, :author)");
+    $query->bindParam(":postId", $postId);
+    $query->bindParam(":content", $comment["content"]);
+    $query->bindParam(":author", $comment["author"]);
+
+    $query->execute();
+    return $conn->lastInsertId();
 }
 
 function getPosts($blogId) {

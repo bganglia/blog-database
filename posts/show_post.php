@@ -22,12 +22,14 @@
       function showComments($comment_query) {
         $out = "";
         while ($row = $comment_query->fetch()) {
-          $username = $row["author"];
+          $authorName = $row["authorName"];
           $comment_text = $row["content"];
-          $out .= "<br>"
-                ."<i>$username</i>"
-                ."<br>"
-                ."$comment_text";
+          $out .= '
+            <i>'. $authorName .'</i>
+            <br/>
+            <p>'. $comment_text .'</p>
+            <br/>
+          ';
         }
         return $out;
       }
@@ -41,26 +43,31 @@
     </div>
     
     <div>
-      <p style="font-size: 20px;">Comments</h4>
+      <p class="mb-2" style="font-size: 20px;">Comments</p>
       <?php 
         echo showComments(getComments($postId));
       ?>
     </div>
 
-    <br><br><br>
-    <form action="submit_comment.php" method="post">
-      Comment
-      <br>
-      Author
-      <br>
-      <input type="text" name="author">
-      <br>
-      Text
-      <br>
-      <textarea name="comment"> </textarea>
-      <br>
-      <input type="submit" name="submit" value="Comment">
-      <br>
-    </form>
+    <br>
+
+    <?php
+      echo '
+        <form action="/comments/submit_comment.php?blogId='. $blog['id'] .'&postId='. $postId .'" method="post">
+          Comment
+          <br>
+          Author
+          <br>
+          <input type="text" name="author">
+          <br>
+          Text
+          <br>
+          <textarea name="content"> </textarea>
+          <br>
+          <input type="submit" name="submit" value="Comment">
+          <br>
+        </form>
+      ';
+    ?>
   </div>
 </body>
