@@ -27,7 +27,7 @@
                 );
 
                 createPost($_GET['blogId'], $post);
-                echo "Post created.";
+                echo 'Post created. <a href="/blogs?id='. $_GET['blogId'] .'">Click here to return to blog.</a>';
             } else {
                 echo '    
                     <form class="w-75 mt-3 mr-auto ml-auto" action="/posts/create_post.php?blogId='. $_GET['blogId'] .'" method="post">
