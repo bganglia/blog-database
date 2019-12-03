@@ -30,26 +30,58 @@ function deleteBlog($id) {
     $query->execute();
 }
 
-function getPosts($blogId) {
-    global $conn;
-    $query = $conn->prepare("SELECT p.* FROM Posts p WHERE p.blogId = :blogId");
-    $query->bindParam(":blogId", $blogId);
-    $query->execute();
-    return $query;
-}
-
-function getPost($id) {
-    global $conn;
-    $query = $conn->prepare("SELECT p.* FROM Posts p WHERE p.id = :id");
-    $query->bindParam(":id", $id);
-    $query->execute();
-    return $query->fetch();
-}
-
 function getComments($postId) {
     global $conn;
     $query = $conn->prepare("SELECT c.* FROM Comments c WHERE c.postId = :postId");
     $query->bindParam(":postId", $postId);
     $query->execute();
     return $query;
+}
+
+function getPosts($blogId) {
+    global $conn;
+    $query = $conn->prepare("SELECT p.*, u.name as authorName FROM Posts p JOIN Users u ON u.username = p.author WHERE blogId = :blogId");
+    $query->bindParam(":blogId", $blogId);
+    $query->execute();
+    return $query;
+}
+
+function getPost($postId) {
+    global $conn;
+    $query = $conn->prepare("SELECT p.*, u.name as authorName FROM Posts p JOIN Users u ON u.username = p.author WHERE id = :postId");
+    $query->bindParam(":postId", $postId);
+
+    $query->execute();
+    return $query->fetch();
+}
+
+function createPost($blogId, $post) {
+    global $conn;
+    $query = $conn->prepare("INSERT INTO Posts(blogId, title, content, author) VALUES (:blogId, :title, :content, :author)");
+    $query->bindParam(":blogId", $blogId);
+    $query->bindParam(":title", $post["title"]);
+    $query->bindParam(":content", $post["content"]);
+    $query->bindParam(":author", $post["author"]);
+
+    $query->execute();
+    return $conn->lastInsertId();
+}
+
+function updatePost($postId, $post) {
+    global $conn;
+    $query = $conn->prepare("UPDATE Posts SET title = :title, content = :content, author = :author WHERE id = :postId");
+    $query->bindParam(":postId", $postId);
+    $query->bindParam(":title", $post["title"]);
+    $query->bindParam(":content", $post["content"]);
+    $query->bindParam(":author", $post["author"]);
+
+    $query->execute();
+}
+
+function deletePost($postId) {
+    global $conn;
+    $query = $conn->prepare("DELETE FROM Posts WHERE id = :postId");
+    $query->bindParam(":postId", $postId);
+
+    $query->execute();
 }
