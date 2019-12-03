@@ -65,3 +65,12 @@ function createPost($blogId, $post) {
     $query->execute();
     return $query->fetch();
 }
+
+function deletePost($postId) {
+    global $conn;
+    $query = $conn->prepare("DELETE FROM Posts WHERE id = :postId");
+    $query->bindParam(":postId", $postId);
+
+    $query->execute();
+    return $query->fetch();
+}
