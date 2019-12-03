@@ -67,6 +67,17 @@ function createPost($blogId, $post) {
     return $conn->lastInsertId();
 }
 
+function updatePost($postId, $post) {
+    global $conn;
+    $query = $conn->prepare("UPDATE Posts SET title = :title, content = :content, author = :author WHERE id = :postId");
+    $query->bindParam(":postId", $postId);
+    $query->bindParam(":title", $post["title"]);
+    $query->bindParam(":content", $post["content"]);
+    $query->bindParam(":author", $post["author"]);
+
+    $query->execute();
+}
+
 function deletePost($postId) {
     global $conn;
     $query = $conn->prepare("DELETE FROM Posts WHERE id = :postId");

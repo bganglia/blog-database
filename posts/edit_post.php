@@ -11,12 +11,13 @@
 
     <div class="w-50 mr-auto ml-auto">
         <?php            
-            if (!isset($_GET['blogId'])) {
+            if (!isset($_GET['blogId']) || !isset($_GET['postId'])) {
                 die();
             }
 
             $blog = getBlog($_GET['blogId']);
-            echo '<h3>Create a Post for '. $blog['title'] .'</h3>';
+            $oldPost = getPost($_GET['postId']);
+            echo '<h3>Edit Post in '. $blog['title'] .'</h3>';
             
             if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 $post = array(
@@ -25,7 +26,7 @@
                     "author"  => $_POST['author']
                 );
 
-                $postId = createPost($_GET['blogId'], $post);
+                updatePost($_GET['postId'], $post);
                 
                 if (!empty($_SERVER['HTTPS']) && ('on' == $_SERVER['HTTPS'])) {
                     $uri = 'https://';
@@ -33,24 +34,24 @@
                     $uri = 'http://';
                 }
                 $uri .= $_SERVER['HTTP_HOST'];
-                header('Location: '.$uri.'/posts/show_post.php?id=' . $postId . '&blogId=' . $blog['id']);
+                header('Location: '.$uri.'/posts/show_post.php?id=' . $_GET['postId'] . '&blogId=' . $blog['id']);
                 exit;
             } else {
                 echo '    
-                    <form class="w-75 mt-3 mr-auto ml-auto" action="/posts/create_post.php?blogId='. $_GET['blogId'] .'" method="post">
+                    <form class="w-75 mt-3 mr-auto ml-auto" action="/posts/edit_post.php?blogId='. $_GET['blogId'] .'&postId='. $_GET['postId'] .'" method="post">
                         <div class="form-group">
                             <label for="postTitle">Title</label>
-                            <input type="text" class="form-control" id="postTitle" name="title" placeholder="Enter Title" />
+                            <input type="text" class="form-control" id="postTitle" name="title" placeholder="Enter Title" value="'. $oldPost['title'] .'" />
                         </div>
 
                         <div class="form-group">
                             <label for="postContent">Content</label>
-                            <textarea class="form-control" id="postContent" name="content" rows="4"></textarea>
+                            <textarea class="form-control" id="postContent" name="content" rows="4">'. $oldPost['content'] .'</textarea>
                         </div>
 
                         <div class="form-group">
                             <label for="postAuthor">Author\'s Username</label>
-                            <input type="text" class="form-control" id="postAuthor" name="author" placeholder="Enter Author" />
+                            <input type="text" class="form-control" id="postAuthor" name="author" placeholder="Enter Author" value="'. $oldPost['author'] .'" />
                         </div>
 
                         <a class="btn btn-danger" href="/blogs?id='. $blog['id'] .'">Cancel</a>
