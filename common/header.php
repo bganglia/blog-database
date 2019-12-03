@@ -5,5 +5,4 @@
         Links here
     </div>
   </div>
-  <div class="text-center">More links down here</div>
 </div>

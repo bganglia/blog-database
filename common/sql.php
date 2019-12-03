@@ -53,3 +53,15 @@ function getComments($postId) {
     $query->execute();
     return $query;
 }
+
+function createPost($blogId, $post) {
+    global $conn;
+    $query = $conn->prepare("INSERT INTO Posts(blogId, title, content, author) VALUES (:blogId, :title, :content, :author)");
+    $query->bindParam(":blogId", $blogId);
+    $query->bindParam(":title", $post["title"]);
+    $query->bindParam(":content", $post["content"]);
+    $query->bindParam(":author", $post["author"]);
+
+    $query->execute();
+    return $query->fetch();
+}
