@@ -63,7 +63,7 @@ function createPost($blogId, $post) {
     $query->bindParam(":author", $post["author"]);
 
     $query->execute();
-    return $query->fetch();
+    return $conn->lastInsertId();
 }
 
 function deletePost($postId) {
@@ -72,5 +72,4 @@ function deletePost($postId) {
     $query->bindParam(":postId", $postId);
 
     $query->execute();
-    return $query->fetch();
 }

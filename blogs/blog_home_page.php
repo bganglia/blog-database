@@ -20,7 +20,7 @@
             <div class="card-body">
               <div class="d-flex flex-row justify-content-between">
                 <div>
-                  <a href="show_post.php?postId='. $postId .'"><b>'. $title .'</b></a>
+                  <a href="/posts/show_post.php?id='. $postId .'&blogId='. $_GET['id'] .'"><b>'. $title .'</b></a>
                   <i> by '. $author .'</i>
                 </div>
                 <a class="btn btn-danger" href="/posts/delete_post.php?postId='. $postId .'&blogId='. $_GET['id'] .'"><i class="fa fa-trash-o fa-lg"></i></a>

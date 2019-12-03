@@ -1,4 +1,3 @@
-<!DOCTYPE HTML>
 <head>
     <?php 
         $PAGE_TITLE = "Create Post";
@@ -11,13 +10,13 @@
         include("../common/sql.php"); ?>
 
     <div class="w-50 mr-auto ml-auto">
-        <h3>Create a Post</h3>
         <?php            
             if (!isset($_GET['blogId'])) {
                 die();
             }
 
             $blog = getBlog($_GET['blogId']);
+            echo '<h3>Create a Post for '. $blog['title'] .'</h3>';
             
             if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 $post = array(
@@ -26,8 +25,16 @@
                     "author"  => $_POST['author']
                 );
 
-                createPost($_GET['blogId'], $post);
-                echo 'Post created. <a href="/blogs?id='. $_GET['blogId'] .'">Click here to return to blog.</a>';
+                $postId = createPost($_GET['blogId'], $post);
+                
+                if (!empty($_SERVER['HTTPS']) && ('on' == $_SERVER['HTTPS'])) {
+                    $uri = 'https://';
+                } else {
+                    $uri = 'http://';
+                }
+                $uri .= $_SERVER['HTTP_HOST'];
+                header('Location: '.$uri.'/posts/show_post.php?id=' . $postId . '&blogId=' . $blog['id']);
+                exit;
             } else {
                 echo '    
                     <form class="w-75 mt-3 mr-auto ml-auto" action="/posts/create_post.php?blogId='. $_GET['blogId'] .'" method="post">
