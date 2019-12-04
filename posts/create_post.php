@@ -6,6 +6,7 @@
 </head>
 <body>
     <?php 
+        include("../common/string_utils.php");
         include("../common/header.php");
         include("../common/sql.php"); ?>
 
