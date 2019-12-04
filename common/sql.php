@@ -201,7 +201,6 @@ function searchResultPostIds($tags) {
                                                       "FROM Tags " .
                                                       "WHERE name IN (" . num_blanks($length) . "))");
   $postIdQuery->execute($tags);
-  var_dump($postIdQuery->errorInfo());
   return getField($postIdQuery,"postId");
 }
 
