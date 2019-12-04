@@ -51,7 +51,7 @@ function createComment($postId, $comment) {
 
 function getPosts($blogId) {
     global $conn;
-    $query = $conn->prepare("SELECT p.*, u.name as authorName FROM Posts p JOIN Users u ON u.username = p.author WHERE blogId = :blogId");
+    $query = $conn->prepare("SELECT p.*, u.name as authorName FROM Posts p JOIN Users u ON u.username = p.author WHERE blogId = :blogId ORDER BY id DSC");
     $query->bindParam(":blogId", $blogId);
     $query->execute();
     return $query;
