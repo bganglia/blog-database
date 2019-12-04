@@ -216,3 +216,13 @@ function anyValues($table, $field, $items) {
 function getPostsById($ids) {
   return anyValues("AuthorAndPost","id",$ids);
 }
+
+function createBlog($title, $description, $username) {
+  global $conn;
+  $query = $conn->prepare("INSERT INTO Blogs(title, description, owner) VALUES(:title, :description, :owner)");
+  $query->bindParam(":title",$title);
+  $query->bindParam(":description",$description);
+  $query->bindParam(":owner",$username);
+  $query->execute();
+  return $conn->lastInsertId();
+}

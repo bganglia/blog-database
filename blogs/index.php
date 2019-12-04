@@ -4,7 +4,7 @@ include('../common/sql.php');
 
 switch($_SERVER['REQUEST_METHOD']) {
     case "GET":
-        include_once("./blog_home_page.php");
+        include_once("./show_blog.php");
         break;
     case "DELETE":
         if ($_GET['id']) {
