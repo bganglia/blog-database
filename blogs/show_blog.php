@@ -15,15 +15,6 @@
     <?php
       include('blog_utils.php');
       $max_results_no = 20;
-      function display_blog_info($row) {
-        //Only expects one result
-        $blog_title = $row["title"];
-        $description = $row["description"];
-        $owner = $row["owner"];
-        return "<b>$blog_title</b>"
-              ."<p>$description</p>"
-              ."<p>owned by $owner";
-      }
 
       if (isset($_SESSION['loggedIn']) && $_SESSION['loggedIn']) {
         echo '
@@ -33,7 +24,7 @@
       }
 
       //Display blog title, owner, and description
-      echo display_blog_info($blog);
+      echo "<center>".$blog['title']."</b><br>".$blog['description']."<br>".$blog['owner']."s</center>";
       echo "<br/><br/><br/>";
       //Display posts from blog
       echo display_articles_preview(getPosts($blogId), $max_results_no);

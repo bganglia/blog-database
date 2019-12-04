@@ -16,7 +16,7 @@
     <?php
       $blog = getBlog($_GET['blogId']);
 
-      echo "<h3 class=\"text-center\"><a href=\"/blogs?id=". $blog['id'] ."\">". $blog['title'] ."</a> ". $post['title'] ."</h3>";
+      echo "<h3 class=\"text-center\"><a href=\"/blogs?id=". $blog['id'] ."\">". $blog['title'] ."</a>: ". $post['title'] ."</h3>";
       echo "<p class=\"text-center\"><i>by ". $post['authorName'] ."</i></p>";
 
       function showComments($comment_query) {
@@ -34,17 +34,17 @@
         return $out;
       }
     ?>
-    
+
     <div class="border-bottom border-top pb-4 pt-4 mb-4">
       <?php
         $content = $post["content"];
         echo $content;
       ?>
     </div>
-    
+
     <div>
       <p class="mb-2" style="font-size: 20px;">Comments</p>
-      <?php 
+      <?php
         echo showComments(getComments($postId));
       ?>
     </div>
