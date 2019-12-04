@@ -47,3 +47,6 @@ CREATE TABLE PostTags (
     FOREIGN KEY (tagId) REFERENCES Tags (id),
     FOREIGN KEY (postId) REFERENCES Posts (id)
 );
+
+CREATE VIEW AuthorAndPost AS
+SELECT p.*, u.name as authorName FROM Posts p JOIN Users u ON u.username = p.author

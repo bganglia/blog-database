@@ -155,27 +155,65 @@ function addTag($postId, $tag) {
 
 function addTags($postId, $tags) {
     echo $tags;
-    function cleanTags($tags) {
-        function cleanTag($tag) {
-          return preg_replace("/[^a-zA-Z0-9]+/","",$tag);
-        }
-//      function filter_none($tags) {
-//        $real_tags = array()
-//        foreach ($tags as $tag) {
-//          if (strlen($tag) > 0) {
-//            array_push($real_tags, $tag);
-//          }
-//        }
-//      }
-        $tags = preg_split("/[ \t]+/",$tags);
-//      $tags = filter_none($tags);
-        array_map("cleanTag", $tags);
-        return $tags;
-    }
     $tags=cleanTags($tags);
     foreach ($tags as $tag) {
         echo "adding tag";
         echo $tag;
         addTag($postId, $tag);
     }
+}
+
+function getTagIds($tags) {
+  return getField(anyValues("Tags","name",$tags),
+                  "id");
+}
+
+function getTaggedPostIds($tagIds) {
+  return getField(anyValues("PostTags","tagId",$tagIds),"postId");
+}
+
+function getField($table, $field) {
+  $out = array();
+  while($row = $table->fetch()) {
+    array_push($out, $row[$field]);
+  }
+  return $out;
+}
+
+function num_blanks($length) {
+  $out = " ";
+  if ($length > 0) {
+    $out .= "?";
+    for ($i = 0; $i < $length - 1; $i++) {
+      $out .=", ?";
+    }
+  }
+  $out .= " ";
+  return $out;
+}
+
+function searchResultPostIds($tags) {
+  global $conn;
+  $length=count($tags);
+  $postIdQuery = $conn->prepare("SELECT postId" .
+                                 " FROM PostTags " .
+                                     " WHERE tagId IN (SELECT id " .
+                                                      "FROM Tags " .
+                                                      "WHERE name IN (" . num_blanks($length) . "))");
+  $postIdQuery->execute($tags);
+  var_dump($postIdQuery->errorInfo());
+  return getField($postIdQuery,"postId");
+}
+
+function anyValues($table, $field, $items) {
+  global $conn;
+  //Build select statement
+  $length = count($items);
+  $query = $conn->prepare("SELECT * FROM $table WHERE $field IN (" . num_blanks($length) . ")");
+  $query->execute($items);
+  return $query;
+}
+
+function getPostsById($ids) {
+  return anyValues("AuthorAndPost","id",$ids);
 }
