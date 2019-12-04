@@ -1,12 +1,11 @@
-<?php
-      function display_post_preview($title, $summary_text, $author, $postId) {
+<?php function display_post_preview($title, $summary_text, $author, $postId) {
         //Displays a preview containing the title and author on one line, followed by summary text.
         $post = '
           <div class="card mt-3 mb-3 ml-auto mr-auto w-75">
             <div class="card-body">
               <div class="d-flex flex-row justify-content-between">
                 <div>
-                  <a href="/posts/show_post.php?id='. $postId .'&blogId='. $_GET['id'] .'"><b>'. $title .'</b></a>
+                  <a href="/posts/show_post.php?id='. $postId .'&blogId='. $postId .'"><b>'. $title .'</b></a>
                   <i> by '. $author .'</i>
                 </div>
                 <div>';
@@ -31,9 +30,11 @@
         $length_of_summary = 180; //Random number of characters
         $articles_preview = "";
         while ($number_displayed <= $max_no) {
+
           $number_displayed++;
           if ($row=$table->fetch()) {
             //Display each item that exists
+            echo $row["title"];
             $articles_preview .= display_post_preview($row["title"],
                                                       //Currently, get the summary by slicing the content
                                                       substr($row["content"],
@@ -42,6 +43,7 @@
                                                       $row["id"]);
           }
           else {
+            echo " out"; 
             //Exit the loop if the results have run out early
             break;
           }
