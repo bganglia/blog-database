@@ -52,22 +52,20 @@
     <br>
 
     <?php
-      echo '
-        <form action="/comments/submit_comment.php?blogId='. $blog['id'] .'&postId='. $postId .'" method="post">
-          Comment
-          <br>
-          Author
-          <br>
-          <input type="text" name="author">
-          <br>
-          Text
-          <br>
-          <textarea name="content"> </textarea>
-          <br>
-          <input type="submit" name="submit" value="Comment">
-          <br>
-        </form>
-      ';
+      if (isset($_SESSION['loggedIn']) && $_SESSION['loggedIn']) {
+        echo '
+          <form action="/comments/submit_comment.php?blogId='. $blog['id'] .'&postId='. $postId .'" method="post">
+            Comment
+            <br>
+            Text
+            <br>
+            <textarea name="content"> </textarea>
+            <br>
+            <input type="submit" name="submit" value="Comment">
+            <br>
+          </form>
+        ';
+      }
     ?>
   </div>
 </body>

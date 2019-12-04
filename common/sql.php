@@ -96,3 +96,25 @@ function deletePost($postId) {
 
     $query->execute();
 }
+
+function checkUser($user) {
+    global $conn;
+    $query = $conn->prepare("SELECT * FROM Users WHERE username = :username AND password = :password");
+    $query->bindParam(":username", $user['username']);
+    $query->bindParam(":password", $user['password']);
+
+    $query->execute();
+
+    return $query->fetch();
+}
+
+function createUser($user) {
+    global $conn;
+    $query = $conn->prepare("INSERT INTO Users(username, email, password, name) VALUES (:username, :email, :password, :name)");
+    $query->bindParam(":username", $user['username']);
+    $query->bindParam(":password", $user['password']);
+    $query->bindParam(":email", $user['email']);
+    $query->bindParam(":name", $user['name']);
+
+    $query->execute();
+}
