@@ -1,5 +1,5 @@
 <head>
-    <?php 
+    <?php
       $blogId = $_GET['id'];
       $blog = getBlog($blogId);
 
@@ -16,7 +16,7 @@
       $max_results_no = 20;
       function display_post_preview($title, $summary_text, $author, $postId) {
         //Displays a preview containing the title and author on one line, followed by summary text.
-        return '
+        $post = '
           <div class="card mt-3 mb-3 ml-auto mr-auto w-75">
             <div class="card-body">
               <div class="d-flex flex-row justify-content-between">
@@ -24,9 +24,12 @@
                   <a href="/posts/show_post.php?id='. $postId .'&blogId='. $_GET['id'] .'"><b>'. $title .'</b></a>
                   <i> by '. $author .'</i>
                 </div>
-                <div>
-                  <a class="btn btn-warning" href="/posts/edit_post.php?postId='. $postId .'&blogId='. $_GET['id'] .'"><i style="color: white !important;" class="fa fa-pencil fa-lg"></i></a>
-                  <a class="btn btn-danger" href="/posts/delete_post.php?postId='. $postId .'&blogId='. $_GET['id'] .'"><i class="fa fa-trash-o fa-lg"></i></a>
+                <div>';
+        if (isset($_SESSION['loggedIn']) && $_SESSION['loggedIn']) {
+          $post .= '<a class="btn btn-warning" href="/posts/edit_post.php?postId='. $postId .'&blogId='. $_GET['id'] .'"><i style="color: white !important;" class="fa fa-pencil fa-lg"></i></a>
+                    <a class="btn btn-danger" href="/posts/delete_post.php?postId='. $postId .'&blogId='. $_GET['id'] .'"><i class="fa fa-trash-o fa-lg"></i></a>';
+        }
+        $post .= ' 
                 </div>
               </div>
               <br/>
@@ -34,6 +37,8 @@
             </div>
           </div>
         ';
+
+        return $post;
       }
       function display_articles_preview($table, $max_no) {
         //Displays the first $max_no results from the blog using display_post_preview
@@ -68,10 +73,12 @@
               ."<p>owned by $owner";
       }
 
-      echo '
-        <a class="btn btn-primary" role="button" href="/posts/create_post.php?blogId='. $blogId .'">Create Post</a>
-        <br/><br/>
-      ';
+      if (isset($_SESSION['loggedIn']) && $_SESSION['loggedIn']) {
+        echo '
+          <a class="btn btn-primary" role="button" href="/posts/create_post.php?blogId='. $blogId .'">Create Post</a>
+          <br/><br/>
+        ';
+      }
 
       //Display blog title, owner, and description
       echo display_blog_info($blog);

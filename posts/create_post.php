@@ -22,7 +22,7 @@
                 $post = array(
                     "title"   => $_POST['title'],
                     "content" => $_POST['content'],
-                    "author"  => $_POST['author']
+                    "author"  => $_SESSION['username']
                 );
 
                 $postId = createPost($_GET['blogId'], $post);
@@ -46,11 +46,6 @@
                         <div class="form-group">
                             <label for="postContent">Content</label>
                             <textarea class="form-control" id="postContent" name="content" rows="4"></textarea>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="postAuthor">Author\'s Username</label>
-                            <input type="text" class="form-control" id="postAuthor" name="author" placeholder="Enter Author" />
                         </div>
 
                         <a class="btn btn-danger" href="/blogs?id='. $blog['id'] .'">Cancel</a>

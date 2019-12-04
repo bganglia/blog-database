@@ -1,11 +1,12 @@
 <?php
+  session_start();
   include("../common/sql.php");
 
   if (!isset($_GET['postId']) || !isset($_GET['blogId']) || $_SERVER['REQUEST_METHOD'] != 'POST') {
     die();
   } else {
     $comment = array(
-      "author"   => $_POST['author'],
+      "author"   => $_SESSION['username'],
       "content" => $_POST['content'],
     );
 

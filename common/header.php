@@ -3,7 +3,9 @@
     <h1><a href="/home">Database Blog</a></h1>
     <div class="d-flex flex-row justify-content-between align-items-center">
       <?php
-        session_start();
+        if (!isset($_SESSION)) {
+          session_start();
+        }
 
         if (isset($_SESSION['loggedIn']) && $_SESSION['loggedIn']) {
           echo '
