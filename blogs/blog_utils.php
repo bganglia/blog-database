@@ -5,7 +5,7 @@
             <div class="card-body">
               <div class="d-flex flex-row justify-content-between">
                 <div>
-                  <a href="/posts/show_post.php?id='. $postId .'&blogId='. $postId .'"><b>'. $title .'</b></a>
+                  <a href="/posts/show_post.php?id='. $postId .'&blogId='. $blogId .'"><b>'. $title .'</b></a>
                   <i> by '. $author .'</i>
                 </div>
                 <div>';
@@ -51,3 +51,14 @@
         return $articles_preview;
       }
 
+function blogPreview ($id, $title, $ownerName, $description) {
+    return '<div class="card mt-1 mb-1">
+               <div class="card-body">
+                   <div class="card-title d-flex flex-row justify-content-between">
+                       <h3><a href="/blogs?id='. $id .'">'. $title .'</a></h3>
+                       <p>Owner: '. $ownerName .'</p>
+                   </div>
+                   <p class="card-text">'. $description .'</p>
+               </div>
+           </div>';
+}
