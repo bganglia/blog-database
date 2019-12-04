@@ -24,7 +24,7 @@
       }
 
       //Display blog title, owner, and description
-      echo "<center>".$blog['title']."</b><br>".$blog['description']."<br>".$blog['owner']."s</center>";
+      echo "<center>".$blog['title']."</b><br>".$blog['description']."<br>".$blog['owner']."</center>";
       echo "<br/><br/><br/>";
       //Display posts from blog
       echo display_articles_preview(getPosts($blogId), $max_results_no);
