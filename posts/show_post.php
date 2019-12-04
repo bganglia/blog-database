@@ -16,7 +16,7 @@
     <?php
       $blog = getBlog($_GET['blogId']);
 
-      echo "<h3 class=\"text-center\"><a href=\"/blogs?id=". $blog['id'] ."\">". $blog['title'] ."</a>: ". $post['title'] ."</h3>";
+      echo "<h3 class=\"text-center\"><a href=\"/blogs?id=". $blog['id'] ."\">". $blog['title'] ."</a> ". $post['title'] ."</h3>";
       echo "<p class=\"text-center\"><i>by ". $post['authorName'] ."</i></p>";
 
       function showComments($comment_query) {
