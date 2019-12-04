@@ -27,13 +27,15 @@
 
                 $postId = createPost($_GET['blogId'], $post);
                 
+                addTags($postId, $_POST['tags']);
+
                 if (!empty($_SERVER['HTTPS']) && ('on' == $_SERVER['HTTPS'])) {
                     $uri = 'https://';
                 } else {
                     $uri = 'http://';
                 }
                 $uri .= $_SERVER['HTTP_HOST'];
-                header('Location: '.$uri.'/posts/show_post.php?id=' . $postId . '&blogId=' . $blog['id']);
+//                header('Location: '.$uri.'/posts/show_post.php?id=' . $postId . '&blogId=' . $blog['id']);
                 exit;
             } else {
                 echo '    
@@ -46,6 +48,11 @@
                         <div class="form-group">
                             <label for="postContent">Content</label>
                             <textarea class="form-control" id="postContent" name="content" rows="4"></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="postTags">Tags</label>
+                            <input type="text" class="form-control" id="postTags" name="tags" placeholder="Enter tags" />
                         </div>
 
                         <a class="btn btn-danger" href="/blogs?id='. $blog['id'] .'">Cancel</a>

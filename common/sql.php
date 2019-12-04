@@ -73,8 +73,8 @@ function createPost($blogId, $post) {
     $query->bindParam(":title", $post["title"]);
     $query->bindParam(":content", $post["content"]);
     $query->bindParam(":author", $post["author"]);
-
     $query->execute();
+
     return $conn->lastInsertId();
 }
 
@@ -117,4 +117,65 @@ function createUser($user) {
     $query->bindParam(":name", $user['name']);
 
     $query->execute();
+}
+
+function insertTag($tag) {
+   global $conn;
+   $query = $conn->prepare("INSERT INTO Tags(name) VALUES (:name)");
+   $query->bindParam(":name", $tag);
+   $query->execute();
+   return $conn->lastInsertId();
+}
+
+function getTagId($tag) {
+  global $conn;
+  $query = $conn->prepare("SELECT id FROM Tags WHERE name == :name");
+  $query->bindParam(":name",$tag);
+  $query->execute();
+  return $query->fetch()["id"];
+}
+
+function insertOrRetrieveTagId($tag) {
+    $tagId = getTagId($tag);
+    if (! $tagId) {
+      $tagId = insertTag($tag);
+    }
+    return $tagId;
+}
+
+function addTag($postId, $tag) {
+    global $conn;
+    $tagId = insertOrRetrieveTagId($tag);
+    $query = $conn->prepare("INSERT INTO PostTags(postId, tagId) VALUES (:postId, :tagId)");
+    $query->bindParam(":postId", $postId);
+    $query->bindParam(":tagId", $tagId);
+
+    $query->execute();
+}
+
+function addTags($postId, $tags) {
+    echo $tags;
+    function cleanTags($tags) {
+        function cleanTag($tag) {
+          return preg_replace("/[^a-zA-Z0-9]+/","",$tag);
+        }
+//      function filter_none($tags) {
+//        $real_tags = array()
+//        foreach ($tags as $tag) {
+//          if (strlen($tag) > 0) {
+//            array_push($real_tags, $tag);
+//          }
+//        }
+//      }
+        $tags = preg_split("/[ \t]+/",$tags);
+//      $tags = filter_none($tags);
+        array_map("cleanTag", $tags);
+        return $tags;
+    }
+    $tags=cleanTags($tags);
+    foreach ($tags as $tag) {
+        echo "adding tag";
+        echo $tag;
+        addTag($postId, $tag);
+    }
 }
